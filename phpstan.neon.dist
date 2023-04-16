@@ -1,0 +1,15 @@
+includes:
+  - ./vendor/nunomaduro/larastan/extension.neon
+
+parameters:
+
+  paths:
+    - src
+    - tests
+    - config
+
+  level: 8
+
+  ignoreErrors:
+    - '#Call to an undefined method Mockery\\ExpectationInterface\|Mockery\\HigherOrderMessage:(.*?)#'
+    - '#Undefined variable: \$this#'

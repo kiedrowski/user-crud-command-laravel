@@ -1,0 +1,52 @@
+{
+  "name": "kiedrowski/user-crud-command-laravel",
+  "type": "library",
+  "version": "dev-main",
+  "license": "MIT",
+  "require": {
+    "php": "^8.2",
+    "illuminate/console": "^10.0",
+    "illuminate/database": "^10.0",
+    "illuminate/config": "^10.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Kiedrowski\\UserCrudCommand\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Kiedrowski\\UserCrudCommand\\Tests\\": "tests/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Kiedrowski\\UserCrudCommand\\UserCrudCommandServiceProvider"
+      ]
+    }
+  },
+  "require-dev": {
+    "pestphp/pest": "^2.5",
+    "pestphp/pest-plugin-laravel": "^2.0",
+    "orchestra/testbench": "^8.4",
+    "laravel/pint": "^1.8",
+    "nunomaduro/larastan": "^2.0"
+  },
+  "config": {
+    "allow-plugins": {
+      "pestphp/pest-plugin": true
+    }
+  },
+  "scripts": {
+    "pint": "pint -v",
+    "test:pint": "pint --test -v",
+    "test:phpstan": "phpstan analyse --ansi",
+    "test:pest": "pest --colors=always",
+    "test": [
+      "@test:pint",
+      "@test:phpstan",
+      "@test:pest"
+    ]
+  }
+}
