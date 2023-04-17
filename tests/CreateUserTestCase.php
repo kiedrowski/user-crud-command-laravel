@@ -5,7 +5,6 @@ namespace Kiedrowski\UserCrudCommand\Tests;
 use Illuminate\Contracts\Hashing\Hasher;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Testing\PendingCommand;
-use Kiedrowski\UserCrudCommand\Repository\UserRepositoryInterface;
 use Kiedrowski\UserCrudCommand\UserCrudCommandServiceProvider;
 use Mockery;
 use Mockery\LegacyMockInterface;
@@ -13,16 +12,11 @@ use Mockery\MockInterface;
 
 class CreateUserTestCase extends TestCase
 {
-    protected LegacyMockInterface|MockInterface $userRepository;
-
     protected LegacyMockInterface|MockInterface $hash;
 
     protected function setUp(): void
     {
         parent::setUp();
-
-        $this->userRepository = Mockery::mock(UserRepositoryInterface::class);
-        $this->instance(UserRepositoryInterface::class, $this->userRepository);
 
         $this->hash = Mockery::mock(Hasher::class);
         $this->instance(Hasher::class, $this->hash);
