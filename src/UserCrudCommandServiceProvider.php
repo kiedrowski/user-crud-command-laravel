@@ -6,6 +6,7 @@ namespace Kiedrowski\UserCrudCommand;
 
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use Kiedrowski\UserCrudCommand\Commands\CreateCommand;
+use Kiedrowski\UserCrudCommand\Commands\ShowCommand;
 use Kiedrowski\UserCrudCommand\Repository\UserRepository;
 use Kiedrowski\UserCrudCommand\Repository\UserRepositoryInterface;
 
@@ -18,6 +19,7 @@ class UserCrudCommandServiceProvider extends BaseServiceProvider
         if ($this->app->runningInConsole()) {
             $this->commands([
                 CreateCommand::class,
+                ShowCommand::class,
             ]);
         }
     }

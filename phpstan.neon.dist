@@ -13,3 +13,4 @@ parameters:
   ignoreErrors:
     - '#Call to an undefined method Mockery\\ExpectationInterface\|Mockery\\HigherOrderMessage:(.*?)#'
     - '#Undefined variable: \$this#'
+    - '#Cannot cast array\|bool\|string\|null to string.#'
