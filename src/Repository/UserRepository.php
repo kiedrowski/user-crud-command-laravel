@@ -7,6 +7,7 @@ use Illuminate\Contracts\Container\Container;
 use Illuminate\Database\ConnectionInterface;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Query\Builder;
+use Kiedrowski\UserCrudCommand\Exceptions\UserNotFoundException;
 
 class UserRepository implements UserRepositoryInterface
 {
@@ -37,11 +38,17 @@ class UserRepository implements UserRepositoryInterface
         return $this->model->create($values)->{$this->getPrimaryKeyName()};
     }
 
-     public function findById(string|int $id, array $columns = ['*']): array
-     {
-        return (array) $this->queryBuilder
+    public function findById(string|int $id, array $columns = ['*']): array
+    {
+        $row = $this->queryBuilder
             ->where($this->getPrimaryKeyName(), '=', $id)
             ->first($columns);
+
+        if (! $row) {
+            throw new UserNotFoundException($this->getPrimaryKeyName(), $id);
+        }
+
+        return (array) $row;
     }
 
     public function getPrimaryKeyName(): string
