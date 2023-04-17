@@ -19,12 +19,19 @@ interface UserRepositoryInterface
     public function createUsingModel(array $values): int|string;
 
     /**
+     * @param  array<string, string|int>  $values
+     */
+    public function update(string|int $id, array $values): int;
+
+    /**
      * @param  array<string>  $columns
      * @return array<string, string|int>
      *
      * @throws UserNotFoundException
      */
     public function findById(string|int $id, array $columns = ['*']): array;
+
+    public function exists(string|int $id): bool;
 
     public function getPrimaryKeyName(): string;
 }

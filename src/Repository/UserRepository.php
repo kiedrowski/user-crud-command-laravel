@@ -38,6 +38,14 @@ class UserRepository implements UserRepositoryInterface
         return $this->model->create($values)->{$this->getPrimaryKeyName()};
     }
 
+    public function update(string|int $id, array $values): int
+    {
+        return $this->queryBuilder
+            ->where($this->getPrimaryKeyName(), '=', $id)
+            ->limit(1)
+            ->update($values);
+    }
+
     public function findById(string|int $id, array $columns = ['*']): array
     {
         $row = $this->queryBuilder
@@ -49,6 +57,13 @@ class UserRepository implements UserRepositoryInterface
         }
 
         return (array) $row;
+    }
+
+    public function exists(string|int $id): bool
+    {
+        return $this->queryBuilder
+            ->where($this->getPrimaryKeyName(), '=', $id)
+            ->exists();
     }
 
     public function getPrimaryKeyName(): string
