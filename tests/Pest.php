@@ -12,9 +12,10 @@
 */
 
 use Illuminate\Foundation\Testing\Concerns\InteractsWithConsole;
-use Kiedrowski\UserCrudCommand\Tests\TestCase;
+use Kiedrowski\UserCrudCommand\Tests\CreateUserTestCase;
 
-uses(TestCase::class, InteractsWithConsole::class)->in(__DIR__);
+uses(InteractsWithConsole::class)->in(__DIR__);
+uses(CreateUserTestCase::class)->in('Feature/CreateUserTest.php');
 
 /*
 |--------------------------------------------------------------------------
