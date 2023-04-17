@@ -6,10 +6,11 @@ use Illuminate\Console\Command;
 use Illuminate\Contracts\Config\Repository as Config;
 use Illuminate\Contracts\Hashing\Hasher;
 use Kiedrowski\UserCrudCommand\Repository\UserRepositoryInterface;
+use Kiedrowski\UserCrudCommand\Traits\HashPasswordFieldTrait;
 
 class CreateCommand extends Command
 {
-    public const DEFAULT_PASSWORD_FIELD = 'password';
+    use HashPasswordFieldTrait;
 
     public const DEFAULT_REQUIRED_FIELDS = ['name', 'email', self::DEFAULT_PASSWORD_FIELD];
 
@@ -98,17 +99,6 @@ class CreateCommand extends Command
     private function getRequiredFields(): array
     {
         return $this->config->get('usercrud.required_fields', static::DEFAULT_REQUIRED_FIELDS);
-    }
-
-    /**
-     * @param  array<string>  $inputs
-     * @return array<string>
-     */
-    private function hashPasswordField(array $inputs): array
-    {
-        $inputs[self::DEFAULT_PASSWORD_FIELD] = $this->hash->make($inputs[self::DEFAULT_PASSWORD_FIELD]);
-
-        return $inputs;
     }
 
     /**
