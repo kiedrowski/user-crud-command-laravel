@@ -19,7 +19,7 @@ class SearchCommand extends Command
         try {
             $users = $userRepository
                 ->searchByColumn($column, $value)
-                ->map(fn(object $user) => (array) $user);
+                ->map(fn (object $user) => (array) $user);
         } catch (\Throwable $e) {
             $this->error('Something went wrong while searching user.');
             $this->error($e->getMessage());
@@ -28,7 +28,7 @@ class SearchCommand extends Command
         }
 
         if ($users->isNotEmpty()) {
-            $this->table(array_keys($users->first()), $users->toArray());
+            $this->table(array_keys($users->first(default: [])), $users->toArray());
         }
 
         $this->info('No users found.');
