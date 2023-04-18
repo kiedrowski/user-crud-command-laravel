@@ -7,6 +7,7 @@ use Illuminate\Contracts\Container\Container;
 use Illuminate\Database\ConnectionInterface;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Query\Builder;
+use Illuminate\Support\Collection;
 use Kiedrowski\UserCrudCommand\Exceptions\UserNotFoundException;
 
 class UserRepository implements UserRepositoryInterface
@@ -59,12 +60,11 @@ class UserRepository implements UserRepositoryInterface
         return (array) $row;
     }
 
-    public function searchByColumn(string $column, string $value): array
+    public function searchByColumn(string $column, string $value): Collection
     {
         return $this->queryBuilder
             ->where($column, 'like', "%{$value}%")
-            ->get()
-            ->toArray();
+            ->get();
     }
 
     public function exists(string|int $id): bool

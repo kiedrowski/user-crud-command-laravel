@@ -2,6 +2,7 @@
 
 namespace Kiedrowski\UserCrudCommand\Repository;
 
+use Illuminate\Support\Collection;
 use Kiedrowski\UserCrudCommand\Exceptions\UserNotFoundException;
 
 interface UserRepositoryInterface
@@ -31,10 +32,7 @@ interface UserRepositoryInterface
      */
     public function findById(string|int $id, array $columns = ['*']): array;
 
-    /**
-     * @return array<array<string|int>>
-     */
-    public function searchByColumn(string $column, string $value): array;
+    public function searchByColumn(string $column, string $value): Collection;
 
     public function exists(string|int $id): bool;
 
