@@ -1,20 +1,21 @@
 <?php
 
+use Illuminate\Support\Collection;
 use Illuminate\Testing\PendingCommand;
 
 test('search-user', function () {
-    $userData = [
-        [
+    $usersData = new Collection([
+        (object) [
             'id' => '1',
             'name' => 'test',
             'email' => 'test@example.com',
         ],
-    ];
+    ]);
 
     $this->userRepository
         ->shouldReceive('searchByColumn')
         ->with('id', '1')
-        ->andReturn($userData);
+        ->andReturn($usersData);
 
     $command = $this
         ->artisan('user:search id 1');
@@ -23,17 +24,19 @@ test('search-user', function () {
         $this->fail('Console output isn\'t mock.');
     }
 
+    $usersData = $usersData->map(fn (object $user) => (array) $user);
+
     $command
-        ->expectsTable(array_keys($userData[array_key_first($userData)]), $userData);
+        ->expectsTable(array_keys($usersData->first(default: [])), $usersData->toArray());
 });
 
 test('search-user-not-found', function () {
-    $userData = [];
+    $usersData = new Collection([]);
 
     $this->userRepository
         ->shouldReceive('searchByColumn')
         ->with('name', 'nonexisting')
-        ->andReturn($userData);
+        ->andReturn($usersData);
 
     $command = $this
         ->artisan('user:search name nonexisting');
