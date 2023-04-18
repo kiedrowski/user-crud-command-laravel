@@ -59,6 +59,14 @@ class UserRepository implements UserRepositoryInterface
         return (array) $row;
     }
 
+    public function searchByColumn(string $column, string $value): array
+    {
+        return $this->queryBuilder
+            ->where($column, 'like', "%{$value}%")
+            ->get()
+            ->toArray();
+    }
+
     public function exists(string|int $id): bool
     {
         return $this->queryBuilder

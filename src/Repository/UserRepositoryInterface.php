@@ -31,6 +31,11 @@ interface UserRepositoryInterface
      */
     public function findById(string|int $id, array $columns = ['*']): array;
 
+    /**
+     * @return array<array<string|int>>
+     */
+    public function searchByColumn(string $column, string $value): array;
+
     public function exists(string|int $id): bool;
 
     public function getPrimaryKeyName(): string;

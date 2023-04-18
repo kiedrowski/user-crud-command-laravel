@@ -19,6 +19,7 @@ use Kiedrowski\UserCrudCommand\Tests\UpdateUserTestCase;
 uses(InteractsWithConsole::class)->in(__DIR__);
 uses(CreateUserTestCase::class)->in('Feature/CreateUserTest.php');
 uses(TestCase::class)->in('Feature/ShowUserTest.php');
+uses(TestCase::class)->in('Feature/SearchUserTest.php');
 uses(UpdateUserTestCase::class)->in('Feature/UpdateUserTest.php');
 
 /*
