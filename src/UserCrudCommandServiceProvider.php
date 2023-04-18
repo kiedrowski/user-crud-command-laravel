@@ -6,6 +6,7 @@ namespace Kiedrowski\UserCrudCommand;
 
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use Kiedrowski\UserCrudCommand\Commands\CreateCommand;
+use Kiedrowski\UserCrudCommand\Commands\DeleteCommand;
 use Kiedrowski\UserCrudCommand\Commands\SearchCommand;
 use Kiedrowski\UserCrudCommand\Commands\ShowCommand;
 use Kiedrowski\UserCrudCommand\Commands\UpdateCommand;
@@ -24,6 +25,7 @@ class UserCrudCommandServiceProvider extends BaseServiceProvider
                 ShowCommand::class,
                 UpdateCommand::class,
                 SearchCommand::class,
+                DeleteCommand::class,
             ]);
         }
     }

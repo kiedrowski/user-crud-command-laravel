@@ -39,5 +39,9 @@ interface UserRepositoryInterface
 
     public function exists(string|int $id): bool;
 
+    public function delete(string|int $id): bool;
+
+    public function forceDelete(string|int $id): bool;
+
     public function getPrimaryKeyName(): string;
 }

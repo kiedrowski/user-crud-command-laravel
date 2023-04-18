@@ -74,6 +74,26 @@ class UserRepository implements UserRepositoryInterface
             ->exists();
     }
 
+    public function delete(int|string $id): bool
+    {
+        if ($columnName = $this->getSoftDeleteColumn()) {
+            return (bool) $this->queryBuilder
+                ->where($this->getPrimaryKeyName(), '=', $id)
+                ->update([
+                    $columnName => now(),
+                ]);
+        }
+
+        return $this->forceDelete($id);
+    }
+
+    public function forceDelete(int|string $id): bool
+    {
+        return (bool) $this->queryBuilder
+            ->where($this->getPrimaryKeyName(), '=', $id)
+            ->delete();
+    }
+
     public function getPrimaryKeyName(): string
     {
         return $this->model->getKeyName();
@@ -82,5 +102,19 @@ class UserRepository implements UserRepositoryInterface
     private function getTableName(): string
     {
         return $this->model->getTable();
+    }
+
+    private function getSoftDeleteColumn(): string|null
+    {
+        if ($this->isSoftDeletedUsed()) {
+            return $this->model->getDeletedAtColumn(); // @phpstan-ignore-line
+        }
+
+        return null;
+    }
+
+    private function isSoftDeletedUsed(): bool
+    {
+        return method_exists($this->model, 'getDeletedAtColumn');
     }
 }
