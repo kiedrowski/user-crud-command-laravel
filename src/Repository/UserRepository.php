@@ -14,8 +14,6 @@ class UserRepository implements UserRepositoryInterface
 {
     private Model $model;
 
-    private Builder $queryBuilder;
-
     public function __construct(
         private readonly Container $container,
         private readonly ConnectionInterface $connection,
@@ -24,13 +22,11 @@ class UserRepository implements UserRepositoryInterface
         $this->model = $this->container->make(
             $this->config->get('usercrud.model_class', UserRepositoryInterface::DEFAULT_USER_MODEL_CLASS)
         );
-
-        $this->queryBuilder = $this->connection->table($this->getTableName());
     }
 
     public function create(array $values): string|int
     {
-        return $this->queryBuilder
+        return $this->getQueryBuilder()
             ->insertGetId($values);
     }
 
@@ -41,7 +37,7 @@ class UserRepository implements UserRepositoryInterface
 
     public function update(string|int $id, array $values): int
     {
-        return $this->queryBuilder
+        return $this->getQueryBuilder()
             ->where($this->getPrimaryKeyName(), '=', $id)
             ->limit(1)
             ->update($values);
@@ -49,7 +45,7 @@ class UserRepository implements UserRepositoryInterface
 
     public function findById(string|int $id, array $columns = ['*']): array
     {
-        $row = $this->queryBuilder
+        $row = $this->getQueryBuilder()
             ->where($this->getPrimaryKeyName(), '=', $id)
             ->first($columns);
 
@@ -62,14 +58,14 @@ class UserRepository implements UserRepositoryInterface
 
     public function searchByColumn(string $column, string $value): Collection
     {
-        return $this->queryBuilder
+        return $this->getQueryBuilder()
             ->where($column, 'like', "%{$value}%")
             ->get();
     }
 
     public function exists(string|int $id): bool
     {
-        return $this->queryBuilder
+        return $this->getQueryBuilder()
             ->where($this->getPrimaryKeyName(), '=', $id)
             ->exists();
     }
@@ -77,7 +73,7 @@ class UserRepository implements UserRepositoryInterface
     public function delete(int|string $id): bool
     {
         if ($columnName = $this->getSoftDeleteColumn()) {
-            return (bool) $this->queryBuilder
+            return (bool) $this->getQueryBuilder()
                 ->where($this->getPrimaryKeyName(), '=', $id)
                 ->update([
                     $columnName => now(),
@@ -89,7 +85,7 @@ class UserRepository implements UserRepositoryInterface
 
     public function forceDelete(int|string $id): bool
     {
-        return (bool) $this->queryBuilder
+        return (bool) $this->getQueryBuilder()
             ->where($this->getPrimaryKeyName(), '=', $id)
             ->delete();
     }
@@ -116,5 +112,10 @@ class UserRepository implements UserRepositoryInterface
     private function isSoftDeletedUsed(): bool
     {
         return method_exists($this->model, 'getDeletedAtColumn');
+    }
+
+    private function getQueryBuilder(): Builder
+    {
+        return $this->connection->table($this->getTableName());
     }
 }
