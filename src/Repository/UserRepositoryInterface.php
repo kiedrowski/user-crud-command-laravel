@@ -37,6 +37,11 @@ interface UserRepositoryInterface
      */
     public function searchByColumn(string $column, string $value): Collection;
 
+    /**
+     * @return Collection<int, object>
+     */
+    public function all(int $limit): Collection;
+
     public function exists(string|int $id): bool;
 
     public function delete(string|int $id): bool;

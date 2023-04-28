@@ -63,6 +63,15 @@ class UserRepository implements UserRepositoryInterface
             ->get();
     }
 
+    public function all(int $limit): Collection
+    {
+        return $this->getQueryBuilder()
+            ->when($limit, function ($query, $limit) {
+                $query->take($limit);
+            })
+            ->get();
+    }
+
     public function exists(string|int $id): bool
     {
         return $this->getQueryBuilder()
