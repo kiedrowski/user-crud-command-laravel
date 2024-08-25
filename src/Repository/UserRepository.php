@@ -30,14 +30,9 @@ class UserRepository implements UserRepositoryInterface
             ->insertGetId($values);
     }
 
-    public function createUsingModel(array $values): string|int
+    public function update(string|int $id, array $values): bool
     {
-        return $this->model->create($values)->{$this->getPrimaryKeyName()};
-    }
-
-    public function update(string|int $id, array $values): int
-    {
-        return $this->getQueryBuilder()
+        return (bool) $this->getQueryBuilder()
             ->where($this->getPrimaryKeyName(), '=', $id)
             ->limit(1)
             ->update($values);
@@ -60,7 +55,8 @@ class UserRepository implements UserRepositoryInterface
     {
         return $this->getQueryBuilder()
             ->where($column, 'like', "%{$value}%")
-            ->get();
+            ->get()
+            ->map(fn (object $user) => (array) $user);
     }
 
     public function all(int $limit): Collection
@@ -69,7 +65,8 @@ class UserRepository implements UserRepositoryInterface
             ->when($limit, function ($query, $limit) {
                 $query->take($limit);
             })
-            ->get();
+            ->get()
+            ->map(fn (object $user) => (array) $user);
     }
 
     public function exists(string|int $id): bool

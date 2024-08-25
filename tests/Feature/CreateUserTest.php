@@ -4,17 +4,12 @@ test('create-user', function () {
     $this->runCreateUserTest();
 });
 
-test('create-user-using-model', function () {
-    $this->runCreateUserTest(useModel: true);
-});
-
 test('create-user-with-single-additional-fields', function () {
-    $this->runCreateUserTest(useModel: true, additionalFields: ['additional_field' => 'additional value']);
+    $this->runCreateUserTest(additionalFields: ['additional_field' => 'additional value']);
 });
 
 test('create-user-with-multiple-additional-fields', function () {
     $this->runCreateUserTest(
-        useModel        : true,
         additionalFields: [
             'additional_field' => 'additional value',
             'additional_field_2' => 'additional value 2',

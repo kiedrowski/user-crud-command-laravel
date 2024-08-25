@@ -10,35 +10,30 @@ interface UserRepositoryInterface
     public const DEFAULT_USER_MODEL_CLASS = '\\App\\Models\\User';
 
     /**
-     * @param  array<string, string|int>  $values
+     * @param  array<string, mixed>  $values
      */
     public function create(array $values): int|string;
 
     /**
-     * @param  array<string, string|int>  $values
+     * @param  array<string, mixed>  $values
      */
-    public function createUsingModel(array $values): int|string;
-
-    /**
-     * @param  array<string, string|int>  $values
-     */
-    public function update(string|int $id, array $values): int;
+    public function update(string|int $id, array $values): bool;
 
     /**
      * @param  array<string>  $columns
-     * @return array<string, string|int>
+     * @return array<string, mixed>
      *
      * @throws UserNotFoundException
      */
     public function findById(string|int $id, array $columns = ['*']): array;
 
     /**
-     * @return Collection<int, object>
+     * @return Collection<int, array>
      */
     public function searchByColumn(string $column, string $value): Collection;
 
     /**
-     * @return Collection<int, object>
+     * @return Collection<int, array>
      */
     public function all(int $limit): Collection;
 

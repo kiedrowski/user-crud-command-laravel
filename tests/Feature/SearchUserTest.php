@@ -5,7 +5,7 @@ use Illuminate\Testing\PendingCommand;
 
 test('search-user', function () {
     $usersData = new Collection([
-        (object) [
+        [
             'id' => '1',
             'name' => 'test',
             'email' => 'test@example.com',
@@ -23,8 +23,6 @@ test('search-user', function () {
     if (! $command instanceof PendingCommand) {
         $this->fail('Console output isn\'t mock.');
     }
-
-    $usersData = $usersData->map(fn (object $user) => (array) $user);
 
     $command
         ->expectsTable(array_keys($usersData->first(default: [])), $usersData->toArray());

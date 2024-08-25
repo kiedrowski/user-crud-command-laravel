@@ -18,8 +18,7 @@ class SearchCommand extends Command
 
         try {
             $users = $userRepository
-                ->searchByColumn($column, $value)
-                ->map(fn (object $user) => (array) $user);
+                ->searchByColumn($column, $value);
         } catch (\Throwable $e) {
             $this->error('Something went wrong while searching user.');
             $this->error($e->getMessage());

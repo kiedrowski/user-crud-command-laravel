@@ -11,6 +11,7 @@ use Kiedrowski\UserCrudCommand\Commands\ListCommand;
 use Kiedrowski\UserCrudCommand\Commands\SearchCommand;
 use Kiedrowski\UserCrudCommand\Commands\ShowCommand;
 use Kiedrowski\UserCrudCommand\Commands\UpdateCommand;
+use Kiedrowski\UserCrudCommand\Repository\UserModelRepository;
 use Kiedrowski\UserCrudCommand\Repository\UserRepository;
 use Kiedrowski\UserCrudCommand\Repository\UserRepositoryInterface;
 
@@ -18,7 +19,16 @@ class UserCrudCommandServiceProvider extends BaseServiceProvider
 {
     public function boot(): void
     {
-        $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
+        $this->publishes([
+            __DIR__.'/../config/usercrud.php' => config_path('usercrud.php'),
+        ]);
+
+        $this->app->bind(
+            UserRepositoryInterface::class,
+            $this->app->config['usercrud.use_model_repository'] ?? false
+                ? UserModelRepository::class
+                : UserRepository::class,
+        );
 
         if ($this->app->runningInConsole()) {
             $this->commands([
@@ -30,5 +40,12 @@ class UserCrudCommandServiceProvider extends BaseServiceProvider
                 ListCommand::class,
             ]);
         }
+    }
+
+    public function register(): void
+    {
+        $this->mergeConfigFrom(
+            __DIR__.'/../config/usercrud.php', 'usercrud'
+        );
     }
 }

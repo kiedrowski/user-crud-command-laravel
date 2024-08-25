@@ -39,12 +39,8 @@ class CreateCommand extends Command
         $inputs = $this->askForAdditionalFields($inputs);
         $inputs = $this->hashPasswordField($inputs);
 
-        $useModel = $this->confirm('Do You want create user using eloquent user model?');
-
         try {
-            $id = $useModel
-                ? $this->userRepository->createUsingModel($inputs)
-                : $this->userRepository->create($inputs);
+            $id = $this->userRepository->create($inputs);
         } catch (\Throwable $e) {
             $this->error('Something went wrong while creating user.');
             $this->error($e->getMessage());

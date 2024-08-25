@@ -17,8 +17,7 @@ class ListCommand extends Command
 
         try {
             $users = $userRepository
-                ->all($limit)
-                ->map(fn (object $user) => (array) $user);
+                ->all($limit);
         } catch (\Throwable $e) {
             $this->error('Something went wrong while listing users.');
             $this->error($e->getMessage());

@@ -14,3 +14,4 @@ parameters:
     - '#Call to an undefined method Mockery\\ExpectationInterface\|Mockery\\HigherOrderMessage:(.*?)#'
     - '#Undefined variable: \$this#'
     - '#Cannot cast array\|bool\|string\|null to string.#'
+    - '#return type has no value type specified in iterable type array.#'

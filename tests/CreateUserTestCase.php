@@ -32,7 +32,7 @@ class CreateUserTestCase extends TestCase
     /**
      * @param  array<string,string>  $additionalFields
      */
-    protected function runCreateUserTest(bool $useModel = false, array $additionalFields = [], bool $exception = false): void
+    protected function runCreateUserTest(array $additionalFields = [], bool $exception = false): void
     {
         $data = array_merge($this->getRequiredData(), $additionalFields);
 
@@ -43,7 +43,7 @@ class CreateUserTestCase extends TestCase
             ->andReturn($dataWithHashedPassword['password']);
 
         $createUser = $this->userRepository
-            ->shouldReceive($useModel ? 'createUsingModel' : 'create')
+            ->shouldReceive('create')
             ->with($dataWithHashedPassword);
         if ($exception) {
             $createUser->andThrow(new \Exception('test error'));
@@ -86,8 +86,7 @@ class CreateUserTestCase extends TestCase
             ->andReturn($data);
 
         $command
-            ->expectsQuestion('Do You want add value for any other field?', false)
-            ->expectsQuestion('Do You want create user using eloquent user model?', $useModel);
+            ->expectsQuestion('Do You want add value for any other field?', false);
 
         if ($exception) {
             $command->expectsOutput('Something went wrong while creating user.');
